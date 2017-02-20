@@ -1,0 +1,178 @@
+#ifndef __TYPES_H
+#define __TYPES_H
+#include    <stdio.h>
+#include    <string.h>
+#include    <ctype.h>
+#include    <stdlib.h>
+#include    <stdarg.h>
+#include <stdint.h>
+typedef const char* string;
+typedef const char* String;
+typedef char* StringBuffer;
+
+
+typedef unsigned char BYTE;
+typedef unsigned char byte;
+typedef unsigned short WORD;
+typedef unsigned long DWORD;
+//typedef unsigned char UInt8;
+//typedef unsigned short UInt16;
+//typedef unsigned long UInt32;
+typedef unsigned char int8u;
+typedef unsigned short int16u;
+typedef unsigned long int32u;
+typedef signed char int8s;
+typedef short int16s;
+typedef int int32s;
+
+typedef unsigned char UCHAR;
+typedef char    CHAR;
+
+typedef unsigned short USHORT;
+typedef short   SHORT;
+
+typedef unsigned long ULONG;
+typedef long    LONG;
+//typedef enum
+//{
+//	false=0,
+//	true=1
+//}bool;
+typedef int8u bool;
+#define BOOL int8u 
+#define TRUE 1
+#define FALSE 0
+
+/////////////////////////////////STM32 Register Map////////////////////////////
+#define DISABLE_ISR(IRQ)    NVIC->ICER[IRQ >> 0x05] =(u32)0x01 << (IRQ & 0x1F);
+#define ENABLE_ISR(IRQ)     NVIC->ISER[IRQ >> 0x05] =(u32)0x01 << (IRQ & 0x1F);
+
+#define APB1PERIPH_OFFSET       0
+#define APB2PERIPH_OFFSET       0x10000
+#define AHBPERIPH_OFFSET        0x20000
+
+#define AFIO_OFFSET             (APB2PERIPH_OFFSET + 0x0000)
+#define EXTI_OFFSET             (APB2PERIPH_OFFSET + 0x0400)
+#define GPIOA_OFFSET            (APB2PERIPH_OFFSET + 0x0800)
+#define GPIOB_OFFSET            (APB2PERIPH_OFFSET + 0x0C00)
+#define GPIOC_OFFSET            (APB2PERIPH_OFFSET + 0x1000)
+#define GPIOD_OFFSET            (APB2PERIPH_OFFSET + 0x1400)
+#define GPIOE_OFFSET            (APB2PERIPH_OFFSET + 0x1800)
+#define ADC1_OFFSET             (APB2PERIPH_OFFSET + 0x2400)
+#define ADC2_OFFSET             (APB2PERIPH_OFFSET + 0x2800)
+#define TIM1_OFFSET             (APB2PERIPH_OFFSET + 0x2C00)
+#define SPI1_OFFSET             (APB2PERIPH_OFFSET + 0x3000)
+#define USART1_OFFSET           (APB2PERIPH_OFFSET + 0x3800)
+
+#define TIM2_OFFSET             (APB1PERIPH_OFFSET + 0x0000)
+#define TIM3_OFFSET             (APB1PERIPH_OFFSET + 0x0400)
+#define TIM4_OFFSET             (APB1PERIPH_OFFSET + 0x0800)
+#define RTC_OFFSET              (APB1PERIPH_OFFSET + 0x2800)
+#define WWDG_OFFSET             (APB1PERIPH_OFFSET + 0x2C00)
+#define IWDG_OFFSET             (APB1PERIPH_OFFSET + 0x3000)
+#define SPI2_OFFSET             (APB1PERIPH_OFFSET + 0x3800)
+#define USART2_OFFSET           (APB1PERIPH_OFFSET + 0x4400)
+#define USART3_OFFSET           (APB1PERIPH_OFFSET + 0x4800)
+#define I2C1_OFFSET             (APB1PERIPH_OFFSET + 0x5400)
+#define I2C2_OFFSET             (APB1PERIPH_OFFSET + 0x5800)
+#define CAN_OFFSET              (APB1PERIPH_OFFSET + 0x6400)
+#define BKP_OFFSET              (APB1PERIPH_OFFSET + 0x6C00)
+#define PWR_OFFSET              (APB1PERIPH_OFFSET + 0x7000)
+
+#define DMA_OFFSET              (AHBPERIPH_OFFSET + 0x0000)
+#define DMA_Channel1_OFFSET     (AHBPERIPH_OFFSET + 0x0008)
+#define DMA_Channel2_OFFSET     (AHBPERIPH_OFFSET + 0x001C)
+#define DMA_Channel3_OFFSET     (AHBPERIPH_OFFSET + 0x0030)
+#define DMA_Channel4_OFFSET     (AHBPERIPH_OFFSET + 0x0044)
+#define DMA_Channel5_OFFSET     (AHBPERIPH_OFFSET + 0x0058)
+#define DMA_Channel6_OFFSET     (AHBPERIPH_OFFSET + 0x006C)
+#define DMA_Channel7_OFFSET     (AHBPERIPH_OFFSET + 0x0080)
+#define RCC_OFFSET              (AHBPERIPH_OFFSET + 0x1000)
+
+#define  GPIOA_ODR_OFFSET (GPIOA_OFFSET+0x0C)
+#define  GPIOA_IDR_OFFSET (GPIOA_OFFSET+0x08)
+#define  GPIOB_ODR_OFFSET (GPIOB_OFFSET+0x0C)
+#define  GPIOB_IDR_OFFSET (GPIOB_OFFSET+0x08)
+#define  GPIOC_ODR_OFFSET (GPIOC_OFFSET+0x0C)
+#define  GPIOC_IDR_OFFSET (GPIOC_OFFSET+0x08)
+#define  GPIOD_ODR_OFFSET (GPIOD_OFFSET+0x0C)
+#define  GPIOD_IDR_OFFSET (GPIOD_OFFSET+0x08)
+#define  GPIOE_ODR_OFFSET (GPIOE_OFFSET+0x0C)
+#define  GPIOE_IDR_OFFSET (GPIOE_OFFSET+0x08)
+
+#define GPIOA_ODR_BIT(index)	(*(vu32*)(PERIPH_BB_BASE + (GPIOA_ODR_OFFSET * 32) + (index * 4)))
+#define GPIOB_ODR_BIT(index)	(*(vu32*)(PERIPH_BB_BASE + (GPIOB_ODR_OFFSET * 32) + (index * 4)))
+#define GPIOC_ODR_BIT(index)	(*(vu32*)(PERIPH_BB_BASE + (GPIOC_ODR_OFFSET * 32) + (index * 4)))
+#define GPIOD_ODR_BIT(index)	(*(vu32*)(PERIPH_BB_BASE + (GPIOD_ODR_OFFSET * 32) + (index * 4)))
+#define GPIOE_ODR_BIT(index)	(*(vu32*)(PERIPH_BB_BASE + (GPIOE_ODR_OFFSET * 32) + (index * 4)))
+
+#define GPIOA_IDR_BIT(index)	(*(vuc32*)(PERIPH_BB_BASE + (GPIOA_IDR_OFFSET * 32) + (index * 4)))
+#define GPIOB_IDR_BIT(index)	(*(vuc32*)(PERIPH_BB_BASE + (GPIOB_IDR_OFFSET * 32) + (index * 4)))
+#define GPIOC_IDR_BIT(index)	(*(vuc32*)(PERIPH_BB_BASE + (GPIOC_IDR_OFFSET * 32) + (index * 4)))
+#define GPIOD_IDR_BIT(index)	(*(vuc32*)(PERIPH_BB_BASE + (GPIOD_IDR_OFFSET * 32) + (index * 4)))
+#define GPIOE_IDR_BIT(index)	(*(vuc32*)(PERIPH_BB_BASE + (GPIOE_IDR_OFFSET * 32) + (index * 4)))
+
+#define EXTI_IMR_OFFSET		(EXTI_OFFSET+0x00)
+#define EXTI_EMR_OFFSET		(EXTI_OFFSET+0x04)
+#define EXTI_RTSR_OFFSET	(EXTI_OFFSET+0x08)
+#define EXTI_FTSR_OFFSET	(EXTI_OFFSET+0x0C)
+#define EXTI_SWIER_OFFSET	(EXTI_OFFSET+0x10)
+#define EXTI_PR_OFFSET		(EXTI_OFFSET+0x14)
+
+#define EXTI_IMR_BIT(index)		(*(vu32*)(PERIPH_BB_BASE + (EXTI_IMR_OFFSET * 32) + ((index) * 4)))
+#define EXTI_EMR_BIT(index)		(*(vu32*)(PERIPH_BB_BASE + (EXTI_EMR_OFFSET * 32) + ((index) * 4)))
+#define EXTI_RTSR_BIT(index)	(*(vu32*)(PERIPH_BB_BASE + (EXTI_RTSR_OFFSET * 32) + ((index) * 4)))
+#define EXTI_FTSR_BIT(index)	(*(vu32*)(PERIPH_BB_BASE + (EXTI_FTSR_OFFSET * 32) + ((index) * 4)))
+#define EXTI_SWIER_BIT(index)	(*(vu32*)(PERIPH_BB_BASE + (EXTI_SWIER_OFFSET * 32) + ((index) * 4)))
+#define EXTI_PR_BIT(index)		(*(vu32*)(PERIPH_BB_BASE + (EXTI_PR_OFFSET * 32) + ((index) * 4)))
+
+#define TIM1_CR1_OFFSET	(TIM1_OFFSET+0)
+#define TIM2_CR1_OFFSET	(TIM2_OFFSET+0)
+#define TIM3_CR1_OFFSET	(TIM3_OFFSET+0)
+#define TIM4_CR1_OFFSET	(TIM4_OFFSET+0)
+
+#define TIM1_CR1_BIT(index)		(*(vu32*)(PERIPH_BB_BASE + (TIM1_CR1_OFFSET * 32) + ((index) * 4)))
+#define TIM2_CR1_BIT(index)		(*(vu32*)(PERIPH_BB_BASE + (TIM2_CR1_OFFSET * 32) + ((index) * 4)))
+#define TIM3_CR1_BIT(index)		(*(vu32*)(PERIPH_BB_BASE + (TIM3_CR1_OFFSET * 32) + ((index) * 4)))
+#define TIM4_CR1_BIT(index)		(*(vu32*)(PERIPH_BB_BASE + (TIM4_CR1_OFFSET * 32) + ((index) * 4)))
+
+#define TIM1_CR1_CEN		TIM1_CR1_BIT(0)
+#define TIM2_CR1_CEN		TIM2_CR1_BIT(0)
+#define TIM3_CR1_CEN		TIM3_CR1_BIT(0)
+#define TIM4_CR1_CEN		TIM4_CR1_BIT(0)
+
+
+#define USART1_CR1_OFFSET	(USART1_OFFSET+0x0C)
+#define USART2_CR1_OFFSET	(USART2_OFFSET+0x0C)
+#define USART3_CR1_OFFSET	(USART3_OFFSET+0x0C)
+
+#define USART1_CR2_OFFSET	(USART1_OFFSET+0x10)
+#define USART2_CR2_OFFSET	(USART2_OFFSET+0x10)
+#define USART3_CR2_OFFSET	(USART3_OFFSET+0x10)
+
+#define USART1_CR1_UE		(*(vu32*)(PERIPH_BB_BASE + (USART1_CR1_OFFSET * 32) + ((13) * 4)))
+#define USART1_CR1_PS		(*(vu32*)(PERIPH_BB_BASE + (USART1_CR1_OFFSET * 32) + ((9) * 4)))
+#define USART1_CR1_TXEIE	(*(vu32*)(PERIPH_BB_BASE + (USART1_CR1_OFFSET * 32) + ((7) * 4)))
+#define USART1_CR1_TCIE		(*(vu32*)(PERIPH_BB_BASE + (USART1_CR1_OFFSET * 32) + ((6) * 4)))
+#define USART1_CR1_TE		(*(vu32*)(PERIPH_BB_BASE + (USART1_CR1_OFFSET * 32) + ((3) * 4)))
+#define USART1_CR1_RE		(*(vu32*)(PERIPH_BB_BASE + (USART1_CR1_OFFSET * 32) + ((2) * 4)))
+#define USART1_CR1_SBK		(*(vu32*)(PERIPH_BB_BASE + (USART1_CR1_OFFSET * 32) + ((0) * 4)))
+
+#define USART2_CR1_UE		(*(vu32*)(PERIPH_BB_BASE + (USART2_CR1_OFFSET * 32) + ((13) * 4)))
+#define USART2_CR1_PS		(*(vu32*)(PERIPH_BB_BASE + (USART2_CR1_OFFSET * 32) + ((9) * 4)))
+#define USART2_CR1_TXEIE	(*(vu32*)(PERIPH_BB_BASE + (USART2_CR1_OFFSET * 32) + ((7) * 4)))
+#define USART2_CR1_TCIE		(*(vu32*)(PERIPH_BB_BASE + (USART2_CR1_OFFSET * 32) + ((6) * 4)))
+#define USART2_CR1_TE		(*(vu32*)(PERIPH_BB_BASE + (USART2_CR1_OFFSET * 32) + ((3) * 4)))
+#define USART2_CR1_RE		(*(vu32*)(PERIPH_BB_BASE + (USART2_CR1_OFFSET * 32) + ((2) * 4)))
+#define USART2_CR1_SBK		(*(vu32*)(PERIPH_BB_BASE + (USART2_CR1_OFFSET * 32) + ((0) * 4)))
+
+#define USART3_CR1_UE		(*(vu32*)(PERIPH_BB_BASE + (USART3_CR1_OFFSET * 32) + ((13) * 4)))
+#define USART3_CR1_PS		(*(vu32*)(PERIPH_BB_BASE + (USART3_CR1_OFFSET * 32) + ((9) * 4)))
+#define USART3_CR1_TXEIE	(*(vu32*)(PERIPH_BB_BASE + (USART3_CR1_OFFSET * 32) + ((7) * 4)))
+#define USART3_CR1_TCIE		(*(vu32*)(PERIPH_BB_BASE + (USART3_CR1_OFFSET * 32) + ((6) * 4)))
+#define USART3_CR1_TE		(*(vu32*)(PERIPH_BB_BASE + (USART3_CR1_OFFSET * 32) + ((3) * 4)))
+#define USART3_CR1_RE		(*(vu32*)(PERIPH_BB_BASE + (USART3_CR1_OFFSET * 32) + ((2) * 4)))
+#define USART3_CR1_SBK		(*(vu32*)(PERIPH_BB_BASE + (USART3_CR1_OFFSET * 32) + ((0) * 4)))
+
+
+#endif  //__TYPES_H

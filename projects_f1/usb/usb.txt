@@ -1,0 +1,18 @@
+usb_config.h
+EP_NUM: end point总数，包括进来和出去的
+
+usb_desc.c
+描述符修改
+
+usb_prob.c
+描述符对应函数GetDeviceDescriptor GetReportDescriptor
+Joystick_Reset 端点初始化
+
+usb_conf.h 修改地址
+#define ENDP2_TXADDR        (0x180)
+#define ENDP2_RXADDR        (0x188)
+
+usb_endp.c
+end point函数
+
+0x103 report id是否没有加，数据字节数是否不对
